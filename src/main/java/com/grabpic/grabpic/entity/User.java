@@ -1,16 +1,14 @@
 package com.grabpic.grabpic.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "users")  //user is reserved keyword in Postgres. (edited later)
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //edited later when error faced in Postman POST req.
     private Long id;
     private String username;
     private String email;

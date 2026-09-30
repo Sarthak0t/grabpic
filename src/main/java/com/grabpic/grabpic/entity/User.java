@@ -1,6 +1,7 @@
 package com.grabpic.grabpic.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,8 @@ public class User {
     private String email;
     private String password;
     @Column(name = "created_at")  //here we have to use this because the variable name is different.
+
+    @CreationTimestamp   //edited later coz database query has something which is throwing error(it tells hibernate to automatically put the current date and time).
     private LocalDateTime createdAt;
 
     public Long getId() {

@@ -3,6 +3,7 @@ package com.grabpic.grabpic.service;
 import com.grabpic.grabpic.entity.User;
 import com.grabpic.grabpic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,15 @@ public class UserService {
         }
         return null;
     }
-    public void deleteuser(long id){
-        userRepository.deleteById(id);
+    public boolean deleteuser(long id){
+        Optional<User> id_valid=userRepository.findById(id);
+        if(id_valid.isPresent()) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+    public Optional<User> getUser(long id){
+        return userRepository.findById(id);
     }
 }

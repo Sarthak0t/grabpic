@@ -1,6 +1,9 @@
 package com.grabpic.grabpic.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -11,8 +14,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //edited later when error faced in Postman POST req.
     private Long id;
+    @NotBlank
     private String username;
+    @Email
+    @NotBlank
     private String email;
+    @Size(min=8)
+    @NotBlank
     private String password;
     @Column(name = "created_at")  //here we have to use this because the variable name is different.
 

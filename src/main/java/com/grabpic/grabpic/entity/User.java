@@ -67,7 +67,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    protected User() {
+    public User() {
 
     }
 }

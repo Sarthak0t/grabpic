@@ -17,24 +17,26 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
-        this.userRepository=userRepository;
-        this.passwordEncoder=passwordEncoder;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-    public User saveUser(User user){
-        String encode=passwordEncoder.encode(user.getPassword());
+
+    public User saveUser(User user) {
+        String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         return userRepository.save(user);
     }
-    public List<User> findUsers(){ //this method is used to findall users so no argument passed inside it
+
+    public List<User> findUsers() { //this method is used to findall users so no argument passed inside it
         return userRepository.findAll();
     }
 
-    public User updateuser(long id, User user){
-        Optional<User> existing_user=userRepository.findById(id);
-        if(existing_user.isPresent()){
-            User existing= existing_user.get();  //to get the user from optional
-            String encode=passwordEncoder.encode(user.getPassword());  //hashing introduced.
+    public User updateuser(long id, User user) {
+        Optional<User> existing_user = userRepository.findById(id);
+        if (existing_user.isPresent()) {
+            User existing = existing_user.get();  //to get the user from optional
+            String encode = passwordEncoder.encode(user.getPassword());  //hashing introduced.
             existing.setUsername(user.getUsername());
             existing.setEmail(user.getEmail());
             existing.setPassword(encode);
@@ -42,23 +44,26 @@ public class UserService {
         }
         return null;
     }
-    public boolean deleteuser(long id){
-        Optional<User> id_valid=userRepository.findById(id);
-        if(id_valid.isPresent()) {
+
+    public boolean deleteuser(long id) {
+        Optional<User> id_valid = userRepository.findById(id);
+        if (id_valid.isPresent()) {
             userRepository.deleteById(id);
             return true;
         }
         return false;
     }
-    public Optional<User> getUser(long id){
+
+    public Optional<User> getUser(long id) {
         return userRepository.findById(id);
     }
 
-    public boolean checklogin(User user){
-        Optional<User> existing_user=userRepository.findByEmail(user.getEmail());
-        if(existing_user.isEmpty()){
+    public boolean checklogin(User user) {
+        Optional<User> existing_user = userRepository.findByEmail(user.getEmail());
+        if (existing_user.isEmpty()) {
             return false;
         }
-        User found_user=existing_user.get();
+        User found_user = existing_user.get();
         return passwordEncoder.matches(user.getPassword(), found_user.getPassword());
     }
+}

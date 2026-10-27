@@ -1,11 +1,13 @@
 package com.grabpic.grabpic.controller;
 
+import com.grabpic.grabpic.dto.LoginRequestDTO;
 import com.grabpic.grabpic.dto.UserRequestDTO;
 import com.grabpic.grabpic.dto.UserResponseDTO;
 import com.grabpic.grabpic.entity.User;
 import com.grabpic.grabpic.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -94,6 +96,20 @@ public class HelloController {
 
         return ResponseEntity.ok(responseDTO);
     }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<Void> logincredentials(@Valid @RequestBody LoginRequestDTO loginRequestDTO){
+
+        User user=new User();
+        user.setEmail(loginRequestDTO.getEmail());
+        user.setPassword(loginRequestDTO.getPassword());
+        boolean validate=userService.checklogin(user);
+        if(!validate){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteuser(@PathVariable long id){
         boolean res=userService.deleteuser(id);
